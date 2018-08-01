@@ -16,9 +16,6 @@
   "files": [
    "dist"
   ],
-  "config": {
-    "vue_file": "CdrRadio"
-  },
   "main": "dist/cdr-radio.js",
   "style": "dist/cdr-radio.css",
   "scripts": {
