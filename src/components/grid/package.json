@@ -16,9 +16,6 @@
   "files": [
     "dist"
   ],
-  "config": {
-    "vue_file": "CdrCol"
-  },
   "main": "dist/cdr-grid.js",
   "scripts": {
     "prepublishOnly": "npm run build && pkg-ok",

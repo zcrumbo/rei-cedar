@@ -2,6 +2,8 @@ const docsBuild = require('../../../../build/component-docs-build');
 const path = require('path');
 const info = require('../package.json');
 
-const vueFilePath = path.resolve(__dirname, '..', `${process.env.npm_package_config_vue_file}.vue`);
+const RowPath = path.resolve(__dirname, '..', 'CdrRow.vue');
+const ColPath = path.resolve(__dirname, '..', 'CdrCol.vue');
 
-docsBuild(vueFilePath, info);
+docsBuild(RowPath, info);
+docsBuild(ColPath, info);
