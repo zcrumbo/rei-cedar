@@ -16,9 +16,6 @@
   "files": [
     "dist"
   ],
-  "config": {
-    "vue_file": "CdrLink"
-  },
   "main": "dist/cdr-link.js",
   "style": "dist/cdr-link.css",
   "scripts": {
