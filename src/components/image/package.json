@@ -16,9 +16,6 @@
   "files": [
    "dist"
   ],
-  "config": {
-    "vue_file": "CdrImg"
-  },
   "main": "dist/cdr-img.js",
   "style": "dist/cdr-img.css",
   "scripts": {
