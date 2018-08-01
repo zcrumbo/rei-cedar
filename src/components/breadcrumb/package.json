@@ -16,9 +16,6 @@
   "files": [
     "dist"
   ],
-  "config": {
-    "vue_file": "CdrBreadcrumb"
-  },
   "main": "dist/cdr-breadcrumb.js",
   "style": "dist/cdr-breadcrumb.css",
   "scripts": {

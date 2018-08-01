@@ -2,6 +2,6 @@ const docsBuild = require('../../../../build/component-docs-build');
 const path = require('path');
 const info = require('../package.json');
 
-const CardPath = path.resolve(__dirname, '..', 'CdrCard.vue');
+const BreadcrumbPath = path.resolve(__dirname, '..', 'CdrBreadcrumb.vue');
 
-docsBuild(CardPath, info);
+docsBuild(BreadcrumbPath, info);

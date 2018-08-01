@@ -5,26 +5,42 @@
 			"api": {
 				"props": [
 					{
-						"name": "type",
+						"name": "size",
 						"type": "string",
-						"default": "\"button\"",
-						"description": "Defines the button type. Possible values: {button, submit, reset}."
+						"default": "\"medium\"",
+						"description": "Sets a static size for the button, which scales padding and text size. {small, medium, large}"
 					},
 					{
-						"name": "onClick",
-						"type": "func",
-						"default": "function() { return function () { return null; }; }",
-						"description": "Add custom click actions."
+						"name": "responsiveSize",
+						"type": "array",
+						"default": "n/a",
+						"description": "Render a specific button size at a specific breakpoint. Takes precedence over size and fullWidth.\nFormat is size@breakpoint (ex: large@sm)."
+					},
+					{
+						"name": "iconOnly",
+						"type": "boolean",
+						"default": "false",
+						"description": "Renders an icon-only button. Default slot is disabled. Overrides size and responsiveSize props."
+					},
+					{
+						"name": "onDark",
+						"type": "boolean",
+						"default": "false",
+						"description": "Renders an icon-only button with a light fill color for use on dark backgrounds.\niconOnly must be true."
 					}
 				],
 				"slots": [
+					{
+						"name": "icon",
+						"description": "for icon"
+					},
 					{
 						"name": "default",
 						"description": "innerHTML on the inside of the button component"
 					}
 				]
 			},
-			"version": "0.1.0"
+			"version": "0.2.0-alpha.1"
 		}
 	]
 }
