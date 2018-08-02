@@ -1,93 +1,96 @@
-const path = require('path')
-const semverDiff = require('semver-diff')
-const semver = require('semver')
-const fs = require('fs-extra')
-const json2md = require('json2md')
-const vueDocgen = require('vue-docgen-api')
+const path = require('path');
+const semverDiff = require('semver-diff');
+const semver = require('semver');
+const fs = require('fs-extra');
+const json2md = require('json2md');
+const vueDocgen = require('vue-docgen-api');
 
-const util = require('util')
-
-// Add convert for markdown anchor
-json2md.converters.anchor = (anchor, json) => {
-  if (!anchor.text) {
-    return "";
-  }
-
-  return `[${anchor.text}](${anchor.source})`;
-};
+const util = require('util');
 
 /**
- * convert <cedar component>.vue file into JSON object then convert to markdown file
+ * convert <cedar component>.vue file into JSON object
  * @param {String} file -- file path of raw Vue component file
  * @param {Object} info -- package.json
  */
 function docsBuild(file, info) {
-  console.log(`Processing file: ${file}\n`)
-  const vueObj = vueDocgen.parse(file)
+  console.log(`Processing file: ${file}\n`);
+  const vueObj = vueDocgen.parse(file);
 
   let compDataObj = {
-    "api": {},
-    "version": '',
-  }
+    "name": '',
+    "api": {}
+  };
 
   // calculate associated component names and paths
-  const vueCompName = path.basename(file,'.vue')
-  const vueCompDir = path.dirname(file)
-  const vueCompFilePath = vueCompDir + path.sep + vueCompName
-  const BASE_VERSION = '0.0.0'
-  let latestMdDoc = null, latestMdVer = BASE_VERSION
+  const vueCompName = path.basename(file,'.vue'); // component file name
+  const vueCompDirArr = path.dirname(file).split(path.sep);
+  const vueCompDir = vueCompDirArr[vueCompDirArr.length - 1]; // component directory name (npm package name)
 
-  // Determine version of current raw vue component based on its associated package.json file
-  const currentDir = path.dirname(file) + path.sep
-  const readmeFilePath = `${currentDir}README.md`
-  const examplesFilePath = `${currentDir}EXAMPLES.md`
-  const compDataHistoryFilePath = `${currentDir}build${path.sep}component-data.json`
-  let compDataHistory = {"name": `${vueCompName}`, "versions": []}
-  const currentVer = info.version
-  compDataObj.version = currentVer
+  // Determine version of current vue package based on its associated package.json file
+  const currentDir = path.dirname(file) + path.sep;
+  const compDataObjFilePath = `${currentDir}build${path.sep}component-data.json`;
 
-  // create data objects for component properties, events, methods, and slots
+  // If component versioned data object exists use existing object, if not create one and use that
+  let compDataHistory;
+  compDataHistory = fs.readJsonSync(compDataObjFilePath, {throws: false});
+  
+  if (compDataHistory == null) {
+    console.log(`${compDataObjFilePath} doesn't exist. Creating new one.\n`);
+    compDataHistory = {"pkgName": `${vueCompDir}`, "versions": [{components:[], version: info.version}]};
+  }
+
+  // create data objects for component props, events, methods, and slots
   const apiProm = new Promise((resolve, reject) => { resolve(buildAPIs(vueObj)) })
   .then( api => { 
-    console.log(`Completed API data object for ${vueCompName}\n`)
-    console.log(`${util.inspect(api)}`)
-    Object.assign(compDataObj.api, api) 
+    console.log(`Completed API data object for ${vueCompName}\n`);
+    console.log(`${util.inspect(api)}`);
+    Object.assign(compDataObj.api, api);
+    compDataObj.name = `${vueCompName}`;
   })
-  .catch( err => { console.log(`Error while trying to create API objects:\n${err}`) })
+  .catch( err => { console.log(`Error while trying to create API objects:\n${err}`) });
 
   // After all promises complete, add new component data object to history of component
   // If current version is in history array, replace that element with current 
   Promise.all([apiProm])
   .then(() => {
-    let currVersionIdx = -1
-    currVersionIdx = compDataHistory.versions.findIndex((element) => {
-      return element.version === compDataObj.version
-    })
-    currVersionIdx == -1 ? 
-      compDataHistory.versions.unshift(compDataObj) :
-      compDataHistory.versions[currVersionIdx] = compDataObj
+    let currVersionIdx = compDataHistory.versions.findIndex((element) => {
+      return element.version === info.version;
+    });
+    
+    // Adding new version to history of data object
+    if (currVersionIdx == -1) {
+      compDataHistory.versions.push({ "components":[...compDataObj], "version": info.version });
+    } else {
+      // Replacing API data for current version of the component
+      let compIdx = compDataHistory.versions[currVersionIdx].components.findIndex( element => {
+        return element.name == `${vueCompName}`;
+      })
+      compIdx == -1 ?
+        compDataHistory.versions[currVersionIdx].components.unshift(compDataObj) : // this component not added yet
+        compDataHistory.versions[currVersionIdx].components[compIdx] = compDataObj; // update already present component
+    }
 
-    return fs.outputJSON(compDataHistoryFilePath, compDataHistory, {spaces: '\t'})
+    return fs.outputJSON(compDataObjFilePath, compDataHistory, {spaces: '\t'});
   })
   .catch( err => {
     console.log(`Problem saving component history for ${vueCompName}:\n${err}`)
     process.exit(1)
-  })
+  });
 }
 
 /**
  * build data objects for Vue props, methods, events, and slots
  * @param {Object} vueObj -- JSON object returned by vue-docgen-api library
- * @returns {Object} -- obJect representing different parts of component API
+ * @returns {Object} -- object representing different parts of component API
  */
 function buildAPIs(vueObj) {
-  const funcArray = [propsAPIObject, methodsAPIObject, eventsAPIObject, slotsAPIObject]
+  const funcArray = [propsAPIObject, eventsAPIObject, slotsAPIObject, methodsAPIObject]
 
   const compAPIObj = funcArray.reduce((apiObj, curFn) => {
     const obj = curFn(vueObj)
 
     if (obj !== null) {
-      Object.assign(apiObj, obj)
+      Object.assign(apiObj.api, obj)
     }
     return apiObj
   }, {})
