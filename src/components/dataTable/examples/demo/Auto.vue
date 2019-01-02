@@ -40,7 +40,7 @@
 
 <script>
 import Components from 'componentsdir/_index';
-import tableData from '../../data';
+import tableData from '../data';
 
 export default {
   name: 'Table',

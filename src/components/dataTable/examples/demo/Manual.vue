@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <div class="table-examples-wrapper">
     <cdr-data-table
@@ -96,7 +97,7 @@
       </template>
     </cdr-data-table>
 
-    <cdr-data-table
+    <!-- <cdr-data-table
       modifier="compact borderless"
       caption="Full Manual - Compact & Borderless"
       id="full-manual"
@@ -136,6 +137,48 @@
           <td>25</td>
         </tr>
       </template>
+    </cdr-data-table> -->
+
+    <cdr-data-table
+      modifier="borderless compact"
+      caption="Full Manual - Compact & Borderless"
+      id="full-manual"
+      data-backstop="DataTable--compact-borderless"
+    >
+      <template slot="tbody">
+        <tr>
+          <th>Gonna make these examples really long</th>
+          <td>Casual</td>
+        </tr>
+        <tr>
+          <th>So that they don't fit and we'll see what happens</th>
+          <td>Cotton canvas</td>
+        </tr>
+        <tr>
+          <th>Lining Fabric</th>
+          <td>Since it's only two rows, it shouldn't be responsive</td>
+        </tr>
+        <tr>
+          <th>Hood</th>
+          <td>And therefore, shouldn't break any of the styling. I mean, we should compensate for this long as text obviously.</td>
+        </tr>
+        <tr>
+          <th>Black Length</th>
+          <td>Hip-length</td>
+        </tr>
+        <tr>
+          <th>Weight</th>
+          <td>Unavailable</td>
+        </tr>
+        <tr>
+          <th>Gender</th>
+          <td>Men's</td>
+        </tr>
+        <tr>
+          <th>Number</th>
+          <td>25</td>
+        </tr>
+      </template>
     </cdr-data-table>
 
   </div>
@@ -143,7 +186,7 @@
 
 <script>
 import Components from 'componentsdir/_index';
-import tableData from '../../data';
+import tableData from '../data';
 
 export default {
   name: 'Table',
