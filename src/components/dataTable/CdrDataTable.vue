@@ -48,23 +48,13 @@
 
         <tbody ref="table-body">
           <slot name="tbody">
-            <tr
+            <cdr-data-table-row
               v-for="(row, index) in rowData"
               :key="id + '_row_' + index"
-            >
-              <th
-                v-if="hasRowHeaders"
-                scope="row"
-              >
-                {{ rowHeaders[index] }}
-              </th>
-              <td
-                v-for="(key, index) in keyOrder"
-                :key="id + '_' + index + '_' + key"
-              >
-                {{ getCellContent(row, key) }}
-              </td>
-            </tr>
+              :row-header="rowHeaders[index]"
+              :row-data="rowData[index]"
+              :key-order="['col1', 'col2', 'col3', 'col4']"
+            />
           </slot>
         </tbody>
       </table>
@@ -75,6 +65,7 @@
 <script>
 import modifier from 'mixinsdir/modifier';
 import debounce from 'lodash/debounce';
+import CdrDataTableRow from './CdrDataTableRow';
 
 /**
  * Cedar 2 compfor for data table
@@ -82,6 +73,9 @@ import debounce from 'lodash/debounce';
  */
 export default {
   name: 'CdrDataTable',
+  components: {
+    CdrDataTableRow,
+  },
   mixins: [modifier],
   props: {
     id: {
