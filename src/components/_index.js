@@ -20,6 +20,7 @@ import CdrTabPanel from 'componentsdir/tabs/CdrTabPanel';
 import CdrTabs from 'componentsdir/tabs/CdrTabs';
 import CdrText from 'componentsdir/text/CdrText';
 import CdrDataTable from 'componentsdir/dataTable/CdrDataTable';
+import CdrDataTableRow from 'componentsdir/dataTable/CdrDataTableRow';
 import CdrAccordion from 'componentsdir/accordion/CdrAccordion';
 import CdrAccordionItem from 'componentsdir/accordion/CdrAccordionItem';
 
@@ -33,6 +34,8 @@ export default {
   CdrCheckbox,
   CdrCol,
   CdrCta,
+  CdrDataTable,
+  CdrDataTableRow,
   CdrIcon,
   CdrImg,
   CdrInput,
@@ -47,5 +50,4 @@ export default {
   CdrTabPanel,
   CdrTabs,
   CdrText,
-  CdrDataTable,
 };

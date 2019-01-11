@@ -138,6 +138,44 @@
       </template>
     </cdr-data-table>
 
+    <cdr-data-table
+      id="overflow-test"
+      :col-headers="true"
+    >
+      <template slot="thead">
+        <cdr-data-table-row
+          :header-row="true"
+        >
+          <th>Col 1</th>
+          <th>Overflowing column header will widen column</th>
+          <th>Col 3</th>
+          <th>Col 4</th>
+        </cdr-data-table-row>
+      </template>
+      <template slot="tbody">
+        <cdr-data-table-row>
+          <th ref="row-header">Row 1</th>
+          <td>Col</td>
+          <td>Col</td>
+          <td>Col</td>
+          <td>Col</td>
+        </cdr-data-table-row>
+        <cdr-data-table-row>
+          <th ref="row-header">Overflowing row header reaches three rows</th>
+          <td>Col</td>
+          <td>Col</td>
+          <td>Col</td>
+          <td>Col</td>
+        </cdr-data-table-row>
+        <cdr-data-table-row>
+          <th ref="row-header">Row 3</th>
+          <td>Col</td>
+          <td>Col</td>
+          <td>Col</td>
+          <td>Overflowing cell data gets to three rows</td>
+        </cdr-data-table-row>
+      </template>
+    </cdr-data-table>
   </div>
 </template>
 

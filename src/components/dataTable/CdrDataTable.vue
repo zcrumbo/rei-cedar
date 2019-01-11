@@ -1,6 +1,7 @@
 <template>
   <div
     :class="[modifierClass]"
+    @handleSize="sizeEvent()"
   >
     <span
       v-if="caption"
@@ -90,6 +91,7 @@
 <script>
 import modifier from 'mixinsdir/modifier';
 import debounce from 'lodash/debounce';
+import CdrDataTableRow from './CdrDataTableRow';
 
 /**
  * Cedar 2 compfor for data table
@@ -97,6 +99,7 @@ import debounce from 'lodash/debounce';
  */
 export default {
   name: 'CdrDataTable',
+  components: [CdrDataTableRow],
   mixins: [modifier],
   props: {
     id: {
@@ -137,6 +140,7 @@ export default {
       hasRowHeaders: false,
       rowHeights: null,
       rowColHeadersHeight: null,
+      rows: [],
     };
   },
   computed: {
@@ -151,6 +155,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this); /* eslint-disable-line */
     this.hasColHeaders = typeof this.colHeaders === 'boolean' ?
       this.colHeaders : this.colHeaders.length > 0;
 
@@ -164,13 +169,13 @@ export default {
     window.addEventListener('resize', debounce(() => {
       this.rowHeights = null;
       this.rowColHeadersHeight = null;
-      this.setRowsContentHeight();
+      // this.setRowsContentHeight();
       this.checkScroll();
     }, 250));
 
-    this.$nextTick(() => {
-      this.setRowsContentHeight();
-    });
+    // this.$nextTick(() => {
+    //   this.setRowsContentHeight();
+    // });
   },
   methods: {
     checkScroll() {
@@ -211,6 +216,9 @@ export default {
       }
 
       return this.rowColHeadersHeight !== null ? this.rowColHeadersHeight : null;
+    },
+    sizeEvent(event) {
+      console.log('size event', event); /* eslint-disable-line */
     },
   },
 };
