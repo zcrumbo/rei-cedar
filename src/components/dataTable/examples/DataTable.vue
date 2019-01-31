@@ -6,21 +6,24 @@
     >
       Tables
     </cdr-text>
-    <all-headers />
+    <!-- <all-headers />
     <no-col-headers />
     <no-headers />
     <variants />
-    <content-resilience />
+    <content-resilience /> -->
+    <star-wars />
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import Components from 'componentsdir/_index';
 import AllHeaders from './demo/AllHeaders';
 import NoColHeaders from './demo/NoColHeaders';
 import NoHeaders from './demo/NoHeaders';
 import Variants from './demo/Variants';
 import ContentResilience from './demo/ContentResilience';
+import StarWars from './demo/StarWars';
 
 export default {
   name: 'Tables',
@@ -31,6 +34,7 @@ export default {
     NoHeaders,
     Variants,
     ContentResilience,
+    StarWars,
   },
 };
 </script>
