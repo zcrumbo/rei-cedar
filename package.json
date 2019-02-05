@@ -27,7 +27,7 @@
     "start": "lerna bootstrap --no-ci && lerna run build && npm run component-css",
     "check-version": "node check-version.js",
     "vue:build": "npm run vue:docs && npm run vue:archive && npm run vue:transfer",
-    "changelog": "lerna-semantic-release post",
+    "changelog": "lerna changed",
     "component-css": "cross-env NODE_ENV=css node build/component-css-build.js"
   },
   "devDependencies": {
