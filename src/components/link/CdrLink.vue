@@ -4,7 +4,8 @@
     :class="[modifierClass, themeClass]"
     :target="target"
     :rel="computedRel"
-    :href="tag === 'a' ? href : null /* don't include the href attribute if not an <a> */"
+    :href="href"
+    @click="onClick"
   >
     <!-- @slot innerHTML on the inside of the anchor component -->
     <slot>Link Text</slot>
@@ -39,6 +40,10 @@ export default {
     target: String,
     /** @ignore */
     rel: String,
+    onClick: {
+      type: Function,
+      default: () => () => null,
+    },
   },
   computed: {
     baseClass() {

@@ -111,7 +111,10 @@
       <cdr-link
         tag="button"
         :data-backstop="`cdr-link--button`"
-      >I'm a button!</cdr-link>
+        :on-click="buttonLog"
+      >
+        I'm a button!
+      </cdr-link>
     </div>
 
     <!-- Nested theme Testing -->
@@ -161,6 +164,11 @@ export default {
   name: 'Links',
   components: {
     ...Components,
+  },
+  methods: {
+    buttonLog() {
+      console.log('I am a button that looks like a link!'); /* eslint-disable-line */
+    },
   },
 };
 </script>
